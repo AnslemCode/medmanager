@@ -6,6 +6,7 @@ import { ToggleGroup, ToggleGroupItem } from "./ui/toggle-group";
 import { FaList } from "react-icons/fa";
 import { IoGrid } from "react-icons/io5";
 import GenderDropdown from "./GenderDropdown";
+import DiagnosisDropdown from "./DiagnosisDropdown";
 
 const SummaryAndButtonsArea = () => {
   return (
@@ -20,6 +21,7 @@ const SummaryAndButtonsArea = () => {
       <div className="flex items-center gap-4">
         <IconToggle />
         <GenderDropdown />
+        <DiagnosisDropdown />
       </div>
     </div>
   );

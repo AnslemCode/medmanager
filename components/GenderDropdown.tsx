@@ -28,13 +28,15 @@ const GenderDropdown = () => {
   const [open, setOpen] = useState(false);
   const { patients } = usePatientDataStore();
 
+  console.log("Patients", patients);
+
   function renderGenderNumbers(gender: string) {
     const numberMalePatients = patients
-      ? patients.filter((patient) => patient.gender === "Male").length
+      ? patients?.filter((patient) => patient.gender === "Male").length
       : 0;
 
     const numberFemalePatients = patients
-      ? patients?.length - numberMalePatients
+      ? patients.length - numberMalePatients
       : 0;
 
     if (gender === "Male") {
@@ -82,7 +84,9 @@ const GenderDropdown = () => {
                     />
                     <div className="flex items-center justify-between w-full gap-1 p-1 rounded-lg px-3 text-[14px]">
                       <span>{gender.label}</span>
-                      <span>{renderGenderNumbers(gender.value)}</span>
+                      <span className="font-medium text-primary">
+                        {renderGenderNumbers(gender.value)}
+                      </span>
                     </div>
                   </CommandItem>
                 ))}
