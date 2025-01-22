@@ -1,10 +1,39 @@
 import { Patient } from "@/app/data/patientsData";
-import { ColumnDef } from "@tanstack/react-table";
+import { Column, ColumnDef } from "@tanstack/react-table";
 import { Checkbox } from "../ui/checkbox";
 import { CheckedState } from "@radix-ui/react-checkbox";
 import { FaFemale } from "react-icons/fa";
 import { MdMan4 } from "react-icons/md";
 import { Badge } from "../ui/badge";
+import { ArrowUpDown } from "lucide-react";
+import { IoMdArrowDown, IoMdArrowUp } from "react-icons/io";
+import { Button } from "../ui/button";
+
+function SortableHeader({
+  column,
+  label,
+}: {
+  column: Column<Patient, unknown>;
+  label: string;
+}) {
+  const isSorted = column.getIsSorted();
+  const SortedIcon =
+    isSorted === "asc"
+      ? IoMdArrowUp
+      : isSorted === "desc"
+      ? IoMdArrowDown
+      : ArrowUpDown;
+
+  return (
+    <Button
+      variant={"ghost"}
+      className={`h-3 ${isSorted && "text-primary"} text-start`}
+      onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+    >
+      {label} <SortedIcon className="ml-2 h-4 w-4" />
+    </Button>
+  );
+}
 
 export const columns: ColumnDef<Patient>[] = [
   {
@@ -34,7 +63,9 @@ export const columns: ColumnDef<Patient>[] = [
   },
 
   {
-    header: "First Name",
+    header: ({ column }) => {
+      return <SortableHeader column={column} label="First Name" />;
+    },
     accessorKey: "firstName",
 
     cell: ({ row }) => {
@@ -59,11 +90,15 @@ export const columns: ColumnDef<Patient>[] = [
   },
 
   {
-    header: "Last Name",
+    header: ({ column }) => {
+      return <SortableHeader column={column} label="Last Name" />;
+    },
     accessorKey: "lastName",
   },
   {
-    header: "Diagnosis",
+    header: ({ column }) => {
+      return <SortableHeader column={column} label="Diagnosis" />;
+    },
     accessorKey: "diagnosis",
 
     cell: ({ row }) => (
@@ -73,15 +108,21 @@ export const columns: ColumnDef<Patient>[] = [
     ),
   },
   {
-    header: "Gender",
+    header: ({ column }) => {
+      return <SortableHeader column={column} label="Gender" />;
+    },
     accessorKey: "gender",
   },
   {
-    header: "Appointment Date",
+    header: ({ column }) => {
+      return <SortableHeader column={column} label="Appointment Date" />;
+    },
     accessorKey: "appointmentDate",
   },
   {
-    header: "Last Visit",
+    header: ({ column }) => {
+      return <SortableHeader column={column} label="Last Visit" />;
+    },
     accessorKey: "lastVisit",
   },
   {

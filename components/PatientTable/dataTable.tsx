@@ -17,6 +17,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Patient } from "@/app/data/patientsData";
+import { useTheme } from "next-themes";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -29,14 +30,21 @@ export function DataTable<TData extends Patient, TValue>({
   table,
 }: //   data,
 DataTableProps<TData, TValue>) {
-  //   const table = useReactTable({
-  //     data,
-  //     columns,
-  //     getCoreRowModel: getCoreRowModel(),
-  //   });
+  const { theme } = useTheme();
+  function darkColorSwitcher(i: number) {
+    if (theme === "light") {
+      if (i % 2 == 0) {
+        return "bg-white hover:bg-gray-100";
+      } else {
+        return "bg-gray-50 hover:bg-gray-100";
+      }
+    } else {
+      return "bg-transparent";
+    }
+  }
 
   return (
-    <div className="rounded-md border poppins">
+    <div className="rounded-md border-x border-t poppins">
       <Table>
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
@@ -58,10 +66,13 @@ DataTableProps<TData, TValue>) {
         </TableHeader>
         <TableBody>
           {table.getRowModel().rows?.length ? (
-            table.getRowModel().rows.map((row) => (
+            table.getRowModel().rows.map((row, i) => (
               <TableRow
                 key={row.id}
                 data-state={row.getIsSelected() && "selected"}
+                className={`group border-none transition-colors py-4 ${darkColorSwitcher(
+                  i
+                )}`}
               >
                 {row.getVisibleCells().map((cell) => (
                   <TableCell key={cell.id}>

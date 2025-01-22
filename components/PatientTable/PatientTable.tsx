@@ -9,16 +9,27 @@ import { DataTable } from "./dataTable";
 import { Patient } from "@/app/data/patientsData";
 import { columns } from "./patientColumns";
 import { Skeleton } from "../ui/skeleton";
+import PaginationArea from "./paginationArea";
+import { SortingProps } from "@/app/page";
 
 export type PaginationType = {
   pageIndex: number;
   pageSize: number;
 };
 
-const PatientTable = ({ patients }: { patients: Patient[] | null }) => {
+const PatientTable = ({
+  patients,
+  sorting: { sorting, setSorting },
+}: {
+  patients: Patient[] | null;
+  sorting: SortingProps;
+}) => {
   const table = useReactTable({
     data: patients || [],
     columns,
+    state: {
+      sorting,
+    },
     getCoreRowModel: getCoreRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
@@ -31,6 +42,7 @@ const PatientTable = ({ patients }: { patients: Patient[] | null }) => {
   return (
     <div className="px-6 mt-20">
       <DataTable columns={columns} table={table} />
+      <PaginationArea />
     </div>
   );
 };
